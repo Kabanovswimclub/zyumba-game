@@ -6,7 +6,7 @@ function buildAutumnMap(){
  for(let x=0,i=0;x<width;x+=PANEL_WIDTH,i++){const panel=document.createElement('div');panel.className='land-panel'+(i%2?' mirror':'');panel.style.left=x+'px';world.append(panel)}
  for(let i=0;i<days;i++){
   const date=new Date(year,8,i+1),isToday=date.toDateString()===now.toDateString(),stone=document.createElement('button'),x=150+i*DAY_WIDTH;
-  stone.className='day-stone'+(isToday?' today':'');stone.style.left=x+'px';stone.style.top=(60+Math.sin(x/PANEL_WIDTH*Math.PI*2)*4)+'%';stone.textContent=date.getDate();
+  stone.className='day-stone'+(isToday?' today':'');stone.style.left=x+'px';stone.style.setProperty('--day-top',(60+Math.sin(x/PANEL_WIDTH*Math.PI*2)*4)+'%');stone.textContent=date.getDate();
   const label=date.toLocaleDateString('ru-RU',{day:'numeric',month:'long'});stone.setAttribute('aria-label',label+(isToday?', сегодня, чистить зубки':''));stone.setAttribute('aria-pressed',String(isToday));
   if(isToday){todayStone=stone;stone.setAttribute('aria-current','date');const small=document.createElement('small');small.textContent='Сегодня';stone.append(small)}
   stone.addEventListener('click',()=>{if(isToday){openPreparation();return}world.querySelectorAll('.day-stone').forEach(el=>el.setAttribute('aria-pressed',String(el===stone)));document.querySelector('#map-announcement').textContent=label;stone.scrollIntoView({behavior:mapBehavior(),block:'nearest',inline:'center'})});world.append(stone);

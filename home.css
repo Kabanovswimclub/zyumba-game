@@ -9,8 +9,8 @@ body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home
 .home-scene{position:relative;min-height:0;flex:1;isolation:isolate;background:#879754;overflow:hidden}
 .home-heading{position:absolute;z-index:3;top:14px;left:max(26px,env(safe-area-inset-left));margin:0;padding:8px 15px;background:#fff5dfeb;border-radius:43% 14% 37% 12%;font-size:clamp(21px,3.4vw,34px);pointer-events:none}
 .day-scroll{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:none;-webkit-overflow-scrolling:touch}.day-scroll::-webkit-scrollbar{display:none}
-.day-world{position:relative;height:100%;min-height:240px}.land-panel{position:absolute;top:0;bottom:0;width:1000px;background:url('assets/autumn-landscape.webp') center/100% 100% no-repeat;pointer-events:none}.land-panel.mirror{transform:scaleX(-1)}
-.day-stone{position:absolute;top:61%;transform:translate(-50%,-50%) rotate(-4deg);display:flex;align-items:center;justify-content:center;width:86px;height:60px;min-height:48px;border-radius:48% 53% 43% 47%;background:#fff0d2;box-shadow:0 5px 0 #b7a17d, inset 0 0 14px #e2c68a66;color:#493b31;font-size:29px;font-weight:900;padding:0;isolation:isolate}
+.day-world{position:relative;height:100%;min-height:0}.land-panel{position:absolute;top:0;bottom:0;width:1000px;background:url('assets/autumn-landscape.webp') center/100% 100% no-repeat;pointer-events:none}.land-panel.mirror{transform:scaleX(-1)}
+.day-stone{position:absolute;top:var(--day-top,61%);transform:translate(-50%,-50%) rotate(-4deg);display:flex;align-items:center;justify-content:center;width:86px;height:60px;min-height:48px;border-radius:48% 53% 43% 47%;background:#fff0d2;box-shadow:0 5px 0 #b7a17d, inset 0 0 14px #e2c68a66;color:#493b31;font-size:29px;font-weight:900;padding:0;isolation:isolate}
 .day-stone:nth-of-type(even){border-radius:53% 43% 49% 40%;transform:translate(-50%,-50%) rotate(4deg)}
 .day-stone.today{outline:6px solid #7caaa0;outline-offset:1px}.day-stone[aria-pressed=true]{background:#fff9e9}
 .day-stone small{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);font-size:14px;background:#fff6e5;padding:3px 10px;border-radius:15px;color:#2f6c66;white-space:nowrap;font-weight:800}
@@ -24,3 +24,12 @@ body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home
 @media(orientation:landscape) and (max-height:600px){.home-bar{height:56px;padding-top:4px;padding-bottom:4px}.home-brand{font-size:30px;gap:7px}.home-brand img{width:42px;height:42px}.home-profile{font-size:20px}.home-avatar{width:36px;height:36px}.home-heading{top:7px;font-size:23px;padding:5px 12px}.map-today{top:8px}.day-stone{width:73px;height:51px;font-size:26px}.home-start{bottom:9px;width:280px;gap:3px}.home-start button{font-size:23px;min-height:48px;padding:8px 15px}.home-start span{font-size:12px}.day-stone small{font-size:12px;top:calc(100% + 9px)}}
 @media(orientation:portrait){.home-bar{height:69px;padding-left:12px;padding-right:12px}.home-brand{font-size:29px;gap:5px}.home-brand img{width:42px;height:42px}.home-profile{font-size:19px;gap:5px}.home-avatar{width:34px;height:34px}.home-heading{left:12px;top:12px;font-size:21px}.map-today{top:66px;right:12px}.land-panel{background-size:auto 100%}.home-start{bottom:max(25px,env(safe-area-inset-bottom));width:300px}.day-stone{top:59%}.home-profile button{padding:5px}}
 @media(prefers-reduced-motion:reduce){.day-scroll{scroll-behavior:auto}}
+
+/* Reserve room for the action even when Safari's bars reduce viewport height. */
+@media(orientation:landscape) and (max-height:600px){
+ .home-scene{--home-bottom:max(9px,env(safe-area-inset-bottom))}
+ .home-start{bottom:var(--home-bottom)}
+ .day-stone{top:min(var(--day-top,61%),calc(100% - var(--home-bottom) - 120px))}
+ .day-stone.today small{top:auto;bottom:calc(100% + 12px)}
+ .home-settings{max-height:calc(100% - 20px);overflow-y:auto}
+}
