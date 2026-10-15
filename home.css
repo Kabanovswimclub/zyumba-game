@@ -1,4 +1,4 @@
-/* The map is navigation; achievements and progress are deliberately undecided. */
+/* Calendar stones carry the child's morning and evening progress. */
 body[data-view=home]{padding:0;height:100vh;height:100dvh;overflow:hidden;background:#faf0d9}
 body[data-view=home] main{display:block;max-width:none;height:100%;margin:0}
 body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home] #controls{display:none}
@@ -41,3 +41,15 @@ body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home
 :root[data-daytime=evening] .home-bar{background:#e6dfed}
 :root[data-daytime=evening] .home-scene{background:#77768c}
 .time-note{font-size:13px;line-height:1.4;color:#606c61}
+/* Gold paint remains separate from the teal today outline. */
+.day-stone::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:5px;background:transparent;pointer-events:none;z-index:-1;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.day-stone[data-progress="1"]::before{background:conic-gradient(from 180deg,#d99b34 0deg 180deg,transparent 180deg 360deg)}
+.day-stone[data-progress="2"],.day-stone[data-progress="2"][aria-pressed=true]{background:#f3cb68;box-shadow:0 5px 0 #ae7c35,inset 0 0 15px #fff0b4}
+.day-stone[data-progress="2"]::before{background:#d89c35}
+.day-stone[data-progress="2"]::after{content:'';position:absolute;top:calc(100% - 2px);width:27px;height:14px;background:#bf714d;clip-path:polygon(0 0,100% 0,100% 100%,50% 65%,0 100%);z-index:-2;pointer-events:none}
+.cleaning-mark{position:absolute;right:-5px;top:-12px;font-size:16px;line-height:20px;font-weight:800;background:#fff3d4;border-radius:50%;padding:0 3px;color:#ad7423;white-space:nowrap;pointer-events:none}
+.cleaning-mark:empty{display:none}.day-stone.today small{top:auto;bottom:calc(100% + 15px)}
+.day-stone.earned{animation:medal-earned .85s ease-out}
+@keyframes medal-earned{0%,100%{scale:1}40%{scale:1.17;filter:brightness(1.2)}65%{scale:.97}}
+.progress-save-note{position:absolute;z-index:7;top:65px;left:10px;max-width:85%;background:#fff4df;padding:8px;border-radius:12px;font-size:13px}
+@media(prefers-reduced-motion:reduce){.day-stone.earned{animation:none}}
