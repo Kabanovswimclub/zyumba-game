@@ -14,3 +14,21 @@ body[data-view=park] main>header,body[data-view=park] #stage,body[data-view=park
 @media(prefers-reduced-motion:reduce){.resident-art,.fed .resident-art,.greeting .resident-art{animation:none}.fed .feeding-snack,.fed .feeding-joy{animation:none;opacity:1}.fed .feeding-joy{top:5%}}
 
 @media(orientation:landscape) and (max-height:300px){.resident{width:110px;top:min(var(--y),calc(100% - 95px))}.park-bar h1{font-size:21px}.treat-bag{font-size:14px}}
+
+/* Soft clearings keep each animal readable against the painted landscape. */
+.park-scene::before{content:'';position:absolute;inset:0;background:#fff4df73;pointer-events:none;z-index:0}
+.resident::before{content:'';position:absolute;inset:8% -4% 0;border-radius:48% 52% 43% 48%;background:#fff3dcde;box-shadow:0 5px 0 #77765025;z-index:-1;pointer-events:none}
+.resident-art{filter:drop-shadow(0 3px 2px #5e624245)}
+.resident.satisfied .resident-name::after{content:' ♥';color:#b75e55}
+.feeding-thanks{position:absolute;z-index:7;top:-7%;left:50%;transform:translateX(-50%);background:#fff5df;border:2px solid #dca96c;border-radius:20px;padding:7px 12px;font-size:clamp(14px,2vw,22px);font-weight:850;white-space:nowrap;opacity:0;pointer-events:none;color:#7d5740;box-shadow:0 3px 10px #57432a25}
+.fed{z-index:5}.fed::before{background:#fff1b8;box-shadow:0 0 0 5px #f2cf8066,0 6px 0 #8e784133}
+.fed .resident-art{animation:feeding-dance 2.9s ease-in-out both}
+.fed .feeding-snack{font-size:clamp(34px,5vw,55px);z-index:6;animation:feeding-bite 1.25s ease-in both}
+.fed .feeding-joy{top:12%;left:50%;white-space:nowrap;font-size:clamp(24px,4vw,40px);color:#cf7767;text-shadow:0 2px #fff4dc;z-index:6;animation:feeding-hearts 2s .8s ease-out both}
+.fed .feeding-thanks{animation:feeding-thanks 3.1s ease both}
+@keyframes feeding-bite{0%{opacity:0;transform:translate(-50%,90px) scale(.4) rotate(-20deg)}25%{opacity:1}65%{opacity:1;transform:translate(-50%,-10px) scale(1.2) rotate(10deg)}85%{opacity:1;transform:translate(-50%,0) scale(.7)}100%{opacity:0;transform:translate(-50%,0) scale(.05)}}
+@keyframes feeding-dance{0%,100%{transform:scaleX(var(--facing,1))}12%{transform:scaleX(var(--facing,1)) translateY(5px) scaleY(.95)}28%,43%{transform:scaleX(var(--facing,1)) rotate(-5deg) scaleY(.96)}35%,50%{transform:scaleX(var(--facing,1)) rotate(5deg)}65%{transform:scaleX(var(--facing,1)) translateY(-25px) rotate(-7deg)}78%{transform:scaleX(var(--facing,1)) translateY(3px) scaleY(.95)}89%{transform:scaleX(var(--facing,1)) translateY(-12px) rotate(5deg)}}
+@keyframes feeding-hearts{0%{opacity:0;transform:translate(-50%,15px) scale(.5)}20%,65%{opacity:1}100%{opacity:0;transform:translate(-50%,-45px) scale(1.2)}}
+@keyframes feeding-thanks{0%,18%{opacity:0}30%,88%{opacity:1}100%{opacity:0}}
+@media(orientation:landscape) and (max-height:600px){.feeding-thanks{font-size:14px;padding:4px 9px;top:-8%}.fed .feeding-joy{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.fed .resident-art,.fed .feeding-snack,.fed .feeding-joy,.fed .feeding-thanks{animation:none}.fed .feeding-thanks,.fed .feeding-joy{opacity:1}.fed .feeding-snack{opacity:0}.fed .feeding-joy{top:15%;transform:translateX(-50%)}}

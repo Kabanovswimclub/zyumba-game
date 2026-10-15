@@ -18,3 +18,12 @@ document.addEventListener('click',event=>{const button=event.target.closest('but
 document.addEventListener('change',event=>{if(event.isTrusted&&event.target.matches('input,select')){unlockAtmosphere();playTap()}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!running)pauseVoice();syncAtmosphere()});
 new MutationObserver(()=>syncAtmosphere()).observe(document.body,{attributes:true,attributeFilter:['data-view']});
+
+// A tiny satisfied warble followed by a happy rising chime, without downloads.
+function playFeedingJoy(id){
+ if(song.muted||!audioContext||document.hidden)return;
+ const now=audioContext.currentTime,base={spark:440,ember:330,water:520}[id]||440;
+ const note=(offset,frequency,length,volume,warble=false)=>{const tone=audioContext.createOscillator(),gain=audioContext.createGain();tone.type='sine';tone.frequency.setValueAtTime(frequency,now+offset);tone.frequency.exponentialRampToValueAtTime(frequency*(warble?1.35:1.08),now+offset+length*.45);tone.frequency.exponentialRampToValueAtTime(frequency*(warble?.85:1),now+offset+length);gain.gain.setValueAtTime(.0001,now+offset);gain.gain.exponentialRampToValueAtTime(volume,now+offset+.025);gain.gain.exponentialRampToValueAtTime(.0001,now+offset+length);tone.connect(gain);gain.connect(audioContext.destination);tone.start(now+offset);tone.stop(now+offset+length+.02);tone.onended=()=>{tone.disconnect();gain.disconnect()}};
+ note(.55,base,.19,.11,true);note(.82,base*1.12,.23,.1,true);
+ [1,1.25,1.5].forEach((ratio,i)=>note(1.42+i*.15,base*ratio,.25,.075));
+}
