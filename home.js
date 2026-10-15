@@ -19,7 +19,7 @@ function centerToday(behavior='auto'){if(todayStone)map.scrollTo({left:todaySton
 function sessionLabel(){const choice=document.querySelector('#session-time').value,hour=new Date().getHours();return choice==='morning'||choice==='auto'&&hour<15?'Утренняя чистка':'Вечерняя чистка'}
 function updateSession(){document.querySelector('#session-label').textContent=sessionLabel()}
 function openPreparation(){document.body.dataset.view='game';home.hidden=true;reset();sayVoice(0);document.querySelector('#home-return').hidden=false}
-function openHome(){reset();document.body.dataset.view='home';home.hidden=false;document.querySelector('#home-return').hidden=true;updateSession();requestAnimationFrame(()=>centerToday())}
+function openHome(){document.querySelector('#park').hidden=true;reset();document.body.dataset.view='home';home.hidden=false;document.querySelector('#home-return').hidden=true;updateSession();requestAnimationFrame(()=>centerToday())}
 document.querySelector('#home-start').addEventListener('click',openPreparation);
 document.querySelector('#home-return').addEventListener('click',openHome);
 document.querySelector('#map-prev').addEventListener('click',()=>map.scrollBy({left:-DAY_WIDTH*3,behavior:mapBehavior()}));

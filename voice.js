@@ -21,6 +21,6 @@ let voiceCue='';
 function brushingVoice(ms){const zone=Math.min(4,Math.floor(ms/(hold+transfer))),local=ms-zone*(hold+transfer);if(hold<12000&&zone<4&&local<hold)return;let cue,index;
  if(local>=hold&&zone<4){cue='transfer-'+zone;index=[5,6,7,8][zone]}
  else if(zone===4){cue='front';index=8}
- else {const surface=Math.min(2,Math.floor(local/(hold/3)));cue=zone+'-'+surface;index=surface===0?2:surface===1?3:4;if(zone===0&&surface===0&&local<3800)return;if(zone>0&&surface===0&&local<1000)return}
+ else {const surface=Math.min(2,Math.floor(local/(hold/3)));cue=zone+'-'+surface;index=[4,3,2][surface];if(zone===0&&surface===0&&local<3800)return;if(zone>0&&surface===0&&local<1000)return}
  if(cue!==voiceCue){const previous=voiceCue;voiceCue=cue;if(cue==='front'&&previous==='transfer-3')return;sayVoice(index)}
 }
