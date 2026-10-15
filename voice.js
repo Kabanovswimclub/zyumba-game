@@ -7,7 +7,7 @@ function audioUnlock(){
  if(!audioContext){audioContext=new (window.AudioContext||window.webkitAudioContext)();musicGain=audioContext.createGain();voiceGain=audioContext.createGain();audioContext.createMediaElementSource(song).connect(musicGain);musicGain.connect(audioContext.destination);voiceGain.connect(audioContext.destination);song.volume=1;musicGain.gain.value=.7;voiceGain.gain.value=song.muted?0:1}
  audioContext.resume().catch(()=>{});
 }
-function duckMusic(active){if(!audioContext)return;const gain=musicGain.gain;gain.cancelScheduledValues(audioContext.currentTime);gain.setValueAtTime(gain.value,audioContext.currentTime);gain.linearRampToValueAtTime(song.muted?0:active?.16:.7,audioContext.currentTime+(active?.2:.55))}
+function duckMusic(active){if(typeof syncAtmosphere==='function')syncAtmosphere();if(!audioContext)return;const gain=musicGain.gain;gain.cancelScheduledValues(audioContext.currentTime);gain.setValueAtTime(gain.value,audioContext.currentTime);gain.linearRampToValueAtTime(song.muted?0:active?.16:.7,audioContext.currentTime+(active?.2:.55))}
 function stopVoice(){voiceSerial++;if(voiceSource){voiceSource.onended=null;voiceSource.stop();voiceSource=null}voiceBuffer=null;voiceOffset=0;voicePaused=false;duckMusic(false)}
 function startVoiceBuffer(){if(!voiceBuffer||voiceOffset>=voiceBuffer.duration)return;voiceSource=audioContext.createBufferSource();voiceSource.buffer=voiceBuffer;voiceSource.connect(voiceGain);voiceStarted=audioContext.currentTime;voicePaused=false;duckMusic(true);voiceSource.onended=()=>{voiceSource=null;voiceBuffer=null;voiceOffset=0;duckMusic(false)};voiceSource.start(0,voiceOffset)}
 async function sayVoice(index){
