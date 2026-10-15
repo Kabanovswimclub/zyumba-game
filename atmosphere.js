@@ -1,5 +1,5 @@
 // Shared Web Audio context: quiet menu music, tactile taps and paper turns.
-const ambienceBytes=fetch('assets/menu-music.mp3').then(r=>{if(!r.ok)throw Error('Menu music');return r.arrayBuffer()}).catch(()=>null);
+const ambienceBytes=fetch('assets/menu-music-light.mp3').then(r=>{if(!r.ok)throw Error('Menu music');return r.arrayBuffer()}).catch(()=>null);
 let ambienceBuffer,ambienceLoading=false,ambienceSource,ambienceGain,atmosphereUnlocked=false,turnAnimation,lastTapAt=-1,lastWhooshAt=-1;
 function ambienceWanted(){return atmosphereUnlocked&&!document.hidden&&!song.muted&&['home','park'].includes(document.body.dataset.view)}
 function syncAtmosphere(){

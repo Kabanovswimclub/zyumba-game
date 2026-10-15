@@ -33,3 +33,11 @@ body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home
  .day-stone.today small{top:auto;bottom:calc(100% + 12px)}
  .home-settings{max-height:calc(100% - 20px);overflow-y:auto}
 }
+
+:root{--scene-image:url("assets/autumn-landscape.webp")}
+:root[data-daytime=evening]{--scene-image:url("assets/autumn-evening.webp")}
+.land-panel{background-image:var(--scene-image)}
+.land{background:var(--scene-image) center/cover no-repeat}
+:root[data-daytime=evening] .home-bar{background:#e6dfed}
+:root[data-daytime=evening] .home-scene{background:#77768c}
+.time-note{font-size:13px;line-height:1.4;color:#606c61}
