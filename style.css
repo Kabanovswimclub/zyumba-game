@@ -19,3 +19,8 @@
 .far-reminder{position:absolute;z-index:5;right:3%;top:7%;max-width:46%;margin:0;padding:8px 13px;border-radius:17px;background:#fff5dfeb;color:#555d43;font-size:clamp(11px,1.5vw,17px);font-weight:750;text-align:center;pointer-events:none}
 @media(orientation:landscape) and (max-height:400px){.far-reminder{top:5%;font-size:11px;max-width:49%;padding:5px 8px}}
 @media(orientation:portrait){.far-reminder{top:3%;font-size:11px;padding:4px 8px;max-width:68%}}
+
+/* Registered art layers: the outside brush is behind teeth; the inside brush is in front. */
+.mouth-gums{z-index:1}.mouth-teeth{z-index:3}.mouth-cheeks{z-index:6}.plaque{z-index:4}.mouth-teeth.upper,.plaque.upper{transform:translateY(var(--close)) scale(.84,.88)}.mouth-teeth.lower,.plaque.lower{transform:translateY(calc(-1 * var(--close))) scale(.84,.88)}#brush .brush-view{position:absolute;max-width:none;pointer-events:none;overflow:hidden}#target{z-index:7;width:7%;height:7%}.hint,.far-reminder,#surface-card{z-index:10}.screen{z-index:20}#stage:not([data-screen=brushing]) .mouth-gums,#stage:not([data-screen=brushing]) .mouth-cheeks{visibility:hidden}
+
+#target{display:none}.mouth-cheeks{transform:none;clip-path:none}

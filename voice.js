@@ -1,6 +1,6 @@
 // Web Audio gain also works on iPhone, where media element volume is fixed.
 const voiceFiles=['01-preparation','02-start','03-top','04-inside','05-outside','06-lower-left','07-upper-right','08-upper-left','09-front-teeth','10-finish','11-reward'];
-const voiceLoads=[...voiceFiles.map(name=>'assets/voice/'+name+'.mp3'),extraVoices.farTeeth,...['13-day-complete','14-choose-friend','15-yummy'].map(name=>'assets/voice/'+name+'.mp3')].map(url=>url?fetch(url+'?v=16').then(r=>{if(!r.ok)throw Error(url);return r.arrayBuffer()}).catch(()=>null):Promise.resolve(null));
+const voiceLoads=[...voiceFiles.map(name=>'assets/voice/'+name+'.mp3'),extraVoices.farTeeth,...['13-day-complete','14-choose-friend','15-yummy'].map(name=>'assets/voice/'+name+'.mp3')].map(url=>url?fetch(url+'?v=17').then(r=>{if(!r.ok)throw Error(url);return r.arrayBuffer()}).catch(()=>null):Promise.resolve(null));
 let audioContext,musicGain,voiceGain,voiceSource,voiceBuffer,voiceOffset=0,voiceStarted=0,voicePaused=false,voiceSerial=0;
 const decodedVoices=[];let voiceQueue=[],voiceLoading=false,voiceCurrentIndex=-1;
 function audioUnlock(){
