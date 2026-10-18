@@ -1,19 +1,18 @@
 // Web Audio gain also works on iPhone, where media element volume is fixed.
 const voiceFiles=['01-preparation','02-start','03-top','04-inside','05-outside','06-lower-left','07-upper-right','08-upper-left','09-front-teeth','10-finish','11-reward'];
-const voiceLoads=voiceFiles.map(name=>fetch('assets/voice/'+name+'.mp3').then(r=>{if(!r.ok)throw Error(name);return r.arrayBuffer()}).catch(()=>null));
-voiceLoads.push(extraVoices.farTeeth?fetch(extraVoices.farTeeth).then(r=>r.ok?r.arrayBuffer():null).catch(()=>null):Promise.resolve(null));
+const voiceLoads=[...voiceFiles.map(name=>'assets/voice/'+name+'.mp3'),extraVoices.farTeeth,...['13-day-complete','14-choose-friend','15-yummy'].map(name=>'assets/voice/'+name+'.mp3')].map(url=>url?fetch(url+'?v=16').then(r=>{if(!r.ok)throw Error(url);return r.arrayBuffer()}).catch(()=>null):Promise.resolve(null));
 let audioContext,musicGain,voiceGain,voiceSource,voiceBuffer,voiceOffset=0,voiceStarted=0,voicePaused=false,voiceSerial=0;
-const decodedVoices=[];let voiceQueue=[],voiceLoading=false;
+const decodedVoices=[];let voiceQueue=[],voiceLoading=false,voiceCurrentIndex=-1;
 function audioUnlock(){
  if(!audioContext){audioContext=new (window.AudioContext||window.webkitAudioContext)();musicGain=audioContext.createGain();voiceGain=audioContext.createGain();audioContext.createMediaElementSource(song).connect(musicGain);musicGain.connect(audioContext.destination);voiceGain.connect(audioContext.destination);song.volume=1;musicGain.gain.value=.7;voiceGain.gain.value=song.muted?0:1}
  audioContext.resume().catch(()=>{});
 }
 function duckMusic(active){if(typeof syncAtmosphere==='function')syncAtmosphere();if(!audioContext)return;const gain=musicGain.gain;gain.cancelScheduledValues(audioContext.currentTime);gain.setValueAtTime(gain.value,audioContext.currentTime);gain.linearRampToValueAtTime(song.muted?0:active?.16:.7,audioContext.currentTime+(active?.2:.55))}
-function stopVoice(){voiceSerial++;voiceQueue=[];voiceLoading=false;if(voiceSource){voiceSource.onended=null;voiceSource.stop();voiceSource=null}voiceBuffer=null;voiceOffset=0;voicePaused=false;duckMusic(false)}
+function stopVoice(){voiceCurrentIndex=-1;voiceSerial++;voiceQueue=[];voiceLoading=false;if(voiceSource){voiceSource.onended=null;voiceSource.stop();voiceSource=null}voiceBuffer=null;voiceOffset=0;voicePaused=false;duckMusic(false)}
 function startVoiceBuffer(){if(!voiceBuffer||voicePaused||voiceOffset>=voiceBuffer.duration)return;voiceSource=audioContext.createBufferSource();voiceSource.buffer=voiceBuffer;voiceSource.connect(voiceGain);voiceStarted=audioContext.currentTime;duckMusic(true);voiceSource.onended=()=>{voiceSource=null;voiceBuffer=null;voiceOffset=0;if(voiceQueue.length)playQueuedVoice();else duckMusic(false)};voiceSource.start(0,voiceOffset)}
 async function playQueuedVoice(){
  if(voiceLoading||voiceSource)return;const serial=voiceSerial;voiceLoading=true;
- try{while(voiceQueue.length&&serial===voiceSerial){const entry=voiceQueue.shift(),index=typeof entry==='number'?entry:entry.index;if(!decodedVoices[index]){const bytes=await voiceLoads[index];if(!bytes)continue;decodedVoices[index]=await audioContext.decodeAudioData(bytes.slice(0))}if(serial!==voiceSerial)return;const buffer=decodedVoices[index];if(entry.maxDuration&&buffer.duration>entry.maxDuration)continue;voiceBuffer=buffer;voiceOffset=0;startVoiceBuffer();return}}catch(error){console.warn('Voice unavailable',error)}finally{if(serial===voiceSerial){voiceLoading=false;if(!voiceBuffer&&!voiceSource)duckMusic(false)}}
+ try{while(voiceQueue.length&&serial===voiceSerial){const entry=voiceQueue.shift(),index=typeof entry==='number'?entry:entry.index;if(!decodedVoices[index]){const bytes=await voiceLoads[index];if(!bytes)continue;decodedVoices[index]=await audioContext.decodeAudioData(bytes.slice(0))}if(serial!==voiceSerial)return;const buffer=decodedVoices[index];if(entry.maxDuration&&buffer.duration>entry.maxDuration)continue;voiceCurrentIndex=index;voiceBuffer=buffer;voiceOffset=0;startVoiceBuffer();return}}catch(error){console.warn('Voice unavailable',error)}finally{if(serial===voiceSerial){voiceLoading=false;if(!voiceBuffer&&!voiceSource)duckMusic(false)}}
 }
 function sayVoiceSequence(indices){stopVoice();if(song.muted)return;audioUnlock();voiceQueue=indices.slice();playQueuedVoice()}
 function sayVoice(index){sayVoiceSequence([index])}
@@ -25,5 +24,7 @@ function brushingVoice(ms){const zone=Math.min(4,Math.floor(ms/(hold+transfer)))
  if(local>=hold&&zone<4){cue='transfer-'+zone;index=[5,6,7,8][zone]}
  else if(zone===4){cue='front';index=8}
  else {const surface=surfaceStep(zone,local,hold).index;cue=zone+'-'+surface;index=[2,4,3][surface];if(zone===0&&surface===0)return;if(zone>0&&surface===0&&local<1000)return}
- if(cue!==voiceCue){const previous=voiceCue;voiceCue=cue;if(cue==='front'&&previous==='transfer-3')return;sayVoice(index)}
+ if(cue!==voiceCue){const previous=voiceCue;voiceCue=cue;if(cue==='front'&&previous==='transfer-3')return;if(zone===0&&cue==='0-2')sayVoiceSequence([index,{index:11,maxDuration:surfaceStep(zone,local,hold).length/1000-3}]);else sayVoice(index)}
 }
+
+function sayFeedingThanks(){if(!song.muted&&(voiceSource||voiceLoading)&&voiceCurrentIndex===12){voiceQueue=[14];return}sayVoice(14)}

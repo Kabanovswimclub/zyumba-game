@@ -18,7 +18,7 @@ function mapBehavior(){return matchMedia('(prefers-reduced-motion: reduce)').mat
 function centerToday(behavior='auto'){if(todayStone)map.scrollTo({left:todayStone.offsetLeft-map.clientWidth/2,behavior})}
 function sessionLabel(){return sceneMood()==='morning'?'Утренняя чистка':'Вечерняя чистка'}
 function updateSession(){applyDaytime();document.querySelector('#session-label').textContent=sessionLabel()}
-function openPreparation(){turnPage();document.body.dataset.view='game';home.hidden=true;reset();sayVoice(0);document.querySelector('#home-return').hidden=false}
+function openPreparation(){turnPage();document.body.dataset.view='game';home.hidden=true;reset();sayVoiceSequence(brushingSeconds<120?[0,11]:[0]);document.querySelector('#home-return').hidden=false}
 function openHome(){turnPage();document.querySelector('#park').hidden=true;reset();document.body.dataset.view='home';home.hidden=false;document.querySelector('#home-return').hidden=true;updateSession();revealProgress();requestAnimationFrame(()=>centerToday())}
 document.querySelector('#home-start').addEventListener('click',openPreparation);
 document.querySelector('#home-return').addEventListener('click',openHome);

@@ -58,3 +58,7 @@ body[data-view=park] main>header,body[data-view=park] #stage,body[data-view=park
 @media(prefers-reduced-motion:reduce){.fed .resident-portrait{animation:none}}
 
 .growth-next{white-space:normal;max-width:155px}
+
+.resident[data-golden=true] .feeding-snack{filter:sepia(1) saturate(2);text-shadow:0 0 8px #ffd76c}.resident.golden-fed .resident-portrait{box-shadow:0 0 0 5px #e5bc5b,0 0 35px #f8d878}.resident.golden-fed .feeding-joy{color:#c58c23}.resident-accessories .accessory-scarf{display:none!important}
+
+.resident.golden-fed .feeding-snack{color:#d5a242;text-shadow:0 0 12px #ffe7a5}

@@ -59,3 +59,5 @@ body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home
 .family-link{min-width:0}#profile-name{max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(orientation:portrait){#profile-name{max-width:85px}}
 
 .home-avatar{overflow:hidden}.home-avatar img{width:100%;height:100%;object-fit:cover}.birthday-banner{margin:0;padding:8px 16px;text-align:center;background:#f2dda1;color:#655033;font-weight:800;font-size:clamp(14px,2vw,20px)}.birthday-banner[hidden]{display:none}
+
+.home-avatar{border-radius:50%}
