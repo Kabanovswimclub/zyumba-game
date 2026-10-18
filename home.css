@@ -53,3 +53,7 @@ body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home
 @keyframes medal-earned{0%,100%{scale:1}40%{scale:1.17;filter:brightness(1.2)}65%{scale:.97}}
 .progress-save-note{position:absolute;z-index:7;top:65px;left:10px;max-width:85%;background:#fff4df;padding:8px;border-radius:12px;font-size:13px}
 @media(prefers-reduced-motion:reduce){.day-stone.earned{animation:none}}
+.family-link{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none}.settings-family{display:block;color:#347e75;font-size:14px;font-weight:750;margin:12px 0}.park-photo{color:#347e75;text-decoration:none;font-weight:750;background:#fff6e5;padding:9px 12px;border-radius:14px;min-height:44px;display:inline-flex;align-items:center;font-size:14px}
+@media(orientation:portrait){.family-link{gap:5px}.park-photo{font-size:12px;padding:7px 10px}.park-bar{gap:5px}.park-bar h1{font-size:21px}}
+
+.family-link{min-width:0}#profile-name{max-width:145px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(orientation:portrait){#profile-name{max-width:85px}}
