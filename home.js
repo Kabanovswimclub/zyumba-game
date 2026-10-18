@@ -36,3 +36,5 @@ buildAutumnMap();updateSession();requestAnimationFrame(()=>centerToday());window
 let calendarDate=[moscowTime().year,moscowTime().month,moscowTime().day].join('-');
 function refreshClock(){const t=moscowTime(),key=[t.year,t.month,t.day].join('-');if(calendarDate!==key){calendarDate=key;buildAutumnMap();if(document.body.dataset.view==='home')centerToday()}updateSession()}
 refreshClock();setInterval(refreshClock,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshClock()});
+
+const durationChoice=document.querySelector('#brushing-duration');durationChoice.value=String(brushingSeconds);durationChoice.addEventListener('change',()=>{saveDuration(durationChoice.value);configureTiming()});

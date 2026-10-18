@@ -32,3 +32,29 @@ body[data-view=park] main>header,body[data-view=park] #stage,body[data-view=park
 @keyframes feeding-thanks{0%,18%{opacity:0}30%,88%{opacity:1}100%{opacity:0}}
 @media(orientation:landscape) and (max-height:600px){.feeding-thanks{font-size:14px;padding:4px 9px;top:-8%}.fed .feeding-joy{font-size:24px}}
 @media(prefers-reduced-motion:reduce){.fed .resident-art,.fed .feeding-snack,.fed .feeding-joy,.fed .feeding-thanks{animation:none}.fed .feeding-thanks,.fed .feeding-joy{opacity:1}.fed .feeding-snack{opacity:0}.fed .feeding-joy{top:15%;transform:translateX(-50%)}}
+.fed .resident-art{animation:none}.fed .resident-portrait{animation:growth-cheer 2.9s ease-in-out both}
+@keyframes growth-cheer{0%,100%{transform:translateY(0)}28%,43%{transform:rotate(-5deg) scaleY(.96)}35%,50%{transform:rotate(5deg)}65%{transform:translateY(-25px) rotate(-7deg)}78%{transform:translateY(3px) scaleY(.95)}89%{transform:translateY(-12px) rotate(5deg)}}
+@media(prefers-reduced-motion:reduce){.fed .resident-portrait{animation:none}}
+/* Age changes the actual drawing as well as its size. Accessories stay separate. */
+.resident-portrait{position:absolute;inset:0;display:block;transform-origin:50% 90%;scale:var(--growth-size,1);transition:scale .7s ease}
+.resident[data-age=baby]{--growth-size:.76}.resident[data-age=young]{--growth-size:.9}
+.resident[data-resident=spark]{--baby:url('assets/baby-spark.webp');--young:url('assets/young-spark.webp')}
+.resident[data-resident=ember]{--baby:url('assets/baby-ember.webp');--young:url('assets/young-ember.webp')}
+.resident[data-resident=water]{--baby:url('assets/baby-water.webp');--young:url('assets/young-water.webp')}
+.resident[data-age=baby] .resident-art{background-image:var(--baby);background-size:100% 100%;background-position:center}
+.resident[data-age=young] .resident-art{background-image:var(--young);background-size:100% 100%;background-position:center}
+.resident-accessories{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transform:scaleX(var(--facing,1));filter:drop-shadow(0 1px 1px #5b453d44)}
+.resident-accessories g[class^=accessory-]{display:none}
+.resident[data-scarf=true] .accessory-scarf,.resident[data-bag=true] .accessory-bag,.resident[data-badge=true] .accessory-badge,.resident[data-crown=true] .accessory-crown{display:initial}
+.resident-growth{position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);display:grid;gap:3px;width:max-content;max-width:190px;background:#fff5e4f5;border-radius:12px;padding:5px 9px;pointer-events:none;font-size:11px;line-height:1.2;box-shadow:0 2px 5px #68583b1c}
+.growth-label{font-weight:800}.growth-next{font-weight:500;font-size:10px;white-space:nowrap}.growth-track{height:5px;border-radius:8px;background:#e0d6b9;overflow:hidden}.growth-fill{display:block;height:100%;background:#6b9f82;border-radius:8px;transition:width .7s}.friend-stars:empty{display:none}.friend-stars{font-size:12px;color:#b38238}
+.resident.grew::before{box-shadow:0 0 0 6px #edc86a88,0 0 24px #ffe9a7}.resident-name{z-index:5}
+@media(orientation:landscape){.resident{--y:45%!important;--resident-size:clamp(100px,min(20vw,38vh),235px);width:var(--resident-size);height:var(--resident-size);max-height:none}.resident-growth{max-width:175px;font-size:11px}}
+@media(orientation:landscape) and (max-height:380px){.resident-growth{font-size:10px;padding:3px 7px;gap:2px}.growth-next{font-size:9px}.resident-name{font-size:12px;padding:3px 8px}.park-status{max-width:96%;font-size:11px}}
+@media(orientation:portrait){.resident{width:39vw;height:39vw}.resident[data-resident=spark]{--x:26%;--y:25%}.resident[data-resident=ember]{--x:74%;--y:45%}.resident[data-resident=water]{--x:29%;--y:70%}.resident-growth{max-width:160px;font-size:10px;padding:4px 7px}.growth-next{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.resident-portrait,.growth-fill{transition:none}}
+.fed .resident-art{animation:none}.fed .resident-portrait{animation:growth-cheer 2.9s ease-in-out both}
+@keyframes growth-cheer{0%,100%{transform:translateY(0)}28%,43%{transform:rotate(-5deg) scaleY(.96)}35%,50%{transform:rotate(5deg)}65%{transform:translateY(-25px) rotate(-7deg)}78%{transform:translateY(3px) scaleY(.95)}89%{transform:translateY(-12px) rotate(5deg)}}
+@media(prefers-reduced-motion:reduce){.fed .resident-portrait{animation:none}}
+
+.growth-next{white-space:normal;max-width:155px}
