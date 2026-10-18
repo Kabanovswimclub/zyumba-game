@@ -40,3 +40,7 @@ refreshClock();setInterval(refreshClock,30000);document.addEventListener('visibi
 const durationChoice=document.querySelector('#brushing-duration');durationChoice.value=String(brushingSeconds);durationChoice.addEventListener('change',()=>{saveDuration(durationChoice.value);configureTiming()});
 
 document.querySelector('#profile-name').textContent=activeChild.name;document.querySelector('.home-avatar').textContent=activeChild.name.slice(0,1).toUpperCase();home.setAttribute('aria-label','Дорожка: '+activeChild.name);
+
+showAvatar(document.querySelector('.home-avatar'),activeChild.id);
+const birthdayBanner=document.createElement('p');birthdayBanner.className='birthday-banner';birthdayBanner.setAttribute('role','status');document.querySelector('.home-bar').after(birthdayBanner);
+function refreshBirthday(){birthdayBanner.textContent=birthdayMessage(activeChild);birthdayBanner.hidden=!birthdayBanner.textContent}refreshBirthday();setInterval(refreshBirthday,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshBirthday()});

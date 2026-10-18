@@ -5,7 +5,8 @@ create table public.zyumba_children (
  id uuid primary key,
  owner_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
  name text not null check (char_length(name) between 1 and 30),
- age integer not null check (age between 2 and 7),
+ age integer not null check (age between 0 and 130),
+ birth_date date check (birth_date >= date '1900-01-01'),
  hand text not null check (hand in ('right','left','both')),
  created_at timestamptz not null default now(),
  unique(id,owner_id)

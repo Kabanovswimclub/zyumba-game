@@ -2,3 +2,5 @@
 
 header h1{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .styles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.styles button{min-width:0;font-size:12px;padding:8px 4px}
+
+.strength{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.strength input{width:100%;accent-color:#347f76}.strength output{font-size:14px}

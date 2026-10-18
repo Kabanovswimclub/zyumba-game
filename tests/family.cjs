@@ -1,2 +1,16 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');const data=new Map([['zyumba-park-v1',JSON.stringify({treats:3,fed:{spark:2}})],['zyumba-brushing-v1',JSON.stringify({'2026-10-18':{morning:true}})]]);let seq=0;
 function page(){const c={crypto:{randomUUID:()=>`child-${++seq}`},localStorage:{getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)}};vm.createContext(c);vm.runInContext(fs.readFileSync('family.js','utf8'),c);return c}let c=page();const run=s=>vm.runInContext(s,c);const first=run('activeChild.id');assert.equal(run('childStats(activeChild.id).cleanings'),1);assert.equal(JSON.parse(run('childStorage.getItem("zyumba-park-v1")')).treats,3);const second=run('saveChild({name:"Миша",age:3,hand:"left"}).id');run(`activateChild('${second}')`);run('childStorage.setItem("test","old-page")');assert.equal(data.get('zyumba-child:'+first+':test'),'old-page');c=page();assert.equal(run('activeChild.id'),second);assert.equal(run('childStorage.getItem("zyumba-park-v1")'),null);assert.equal(run('childStats(activeChild.id).cleanings'),0);assert.throws(()=>run('saveChild({name:"",age:4,hand:"right"})'));run(`activateChild('${first}')`);c=page();assert.equal(run('childStats(activeChild.id).cleanings'),1);assert(data.has('zyumba-park-v1'));console.log('PASS: legacy progress retained; children isolated; other-tab selection cannot redirect running session; profiles survive reload');
+const birthdayChild={birthDate:'2022-10-18',age:4,name:'Лера'};c.birthdayChild=birthdayChild;
+assert.equal(run('childAge(birthdayChild,"2026-10-17")'),3);
+assert.equal(run('childAge(birthdayChild,"2026-10-18")'),4);
+assert.equal(run('birthdayMessage(birthdayChild,"2026-10-17")'),'');
+assert.match(run('birthdayMessage(birthdayChild,"2026-10-18")'),/4!/);
+assert.equal(run('validBirthDate("2024-02-29","2026-10-18")'),true);
+assert.equal(run('validBirthDate("2023-02-29","2026-10-18")'),false);
+assert.equal(run('validBirthDate("2027-01-01","2026-10-18")'),false);
+assert.equal(run('moscowBirthdayDate(new Date("2026-10-17T21:01:00Z"))'),'2026-10-18');
+run('activeChild.extra="retained"');run('saveChild({name:activeChild.name,age:4,hand:"right",birthDate:"2022-10-18"},activeChild.id)');
+assert.equal(run('familyState.children.find(c=>c.id===activeChild.id).extra'),'retained');
+run('saveChild({name:activeChild.name,age:4,hand:"left"},activeChild.id)');
+assert.equal(run('familyState.children.find(c=>c.id===activeChild.id).birthDate'),'2022-10-18');
+console.log('PASS: birthday validation, automatic age, Moscow midnight and profile field preservation');
