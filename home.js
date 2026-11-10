@@ -1,17 +1,18 @@
 const home=document.querySelector('#home'),map=document.querySelector('#day-scroll'),world=document.querySelector('#day-world');
 const DAY_WIDTH=145,PANEL_WIDTH=1000;let todayStone;
 function buildAutumnMap(){
- const msk=moscowTime(),now=new Date(msk.year,msk.month-1,msk.day),year=msk.year,start=new Date(year,8,1),end=new Date(year,11,1),days=Math.round((end-start)/86400000),width=days*DAY_WIDTH+300;
+ const msk=moscowTime(),now=new Date(msk.year,msk.month-1,msk.day),season=calendarSeason(),year=season.year,start=new Date(year,season.month,1),end=new Date(year,season.endMonth,1),days=Math.round((end-start)/86400000),width=days*DAY_WIDTH+300;
+ document.querySelector('.home-heading').textContent=season.title;map.setAttribute('aria-label',season.label);
  world.replaceChildren();todayStone=null;world.style.width=width+'px';
  for(let x=0,i=0;x<width;x+=PANEL_WIDTH,i++){const panel=document.createElement('div');panel.className='land-panel'+(i%2?' mirror':'');panel.style.left=x+'px';world.append(panel)}
  for(let i=0;i<days;i++){
-  const date=new Date(year,8,i+1),isToday=date.toDateString()===now.toDateString(),stone=document.createElement('button'),x=150+i*DAY_WIDTH;
+  const date=new Date(year,season.month,i+1),isToday=date.toDateString()===now.toDateString(),stone=document.createElement('button'),x=150+i*DAY_WIDTH;
   stone.className='day-stone'+(isToday?' today':'');stone.style.left=x+'px';stone.style.setProperty('--day-top',(60+Math.sin(x/PANEL_WIDTH*Math.PI*2)*4)+'%');stone.textContent=date.getDate();
-  const label=date.toLocaleDateString('ru-RU',{day:'numeric',month:'long'});stone.dataset.date=dateKey({year,month:date.getMonth()+1,day:date.getDate()});stone.dataset.label=label;stone.setAttribute('aria-label',label+(isToday?', сегодня, чистить зубки':''));stone.setAttribute('aria-pressed',String(isToday));
+  const label=date.toLocaleDateString('ru-RU',{day:'numeric',month:'long'});stone.dataset.date=dateKey({year:date.getFullYear(),month:date.getMonth()+1,day:date.getDate()});stone.dataset.label=label;stone.setAttribute('aria-label',label+(isToday?', сегодня, чистить зубки':''));stone.setAttribute('aria-pressed',String(isToday));
   if(isToday){todayStone=stone;stone.setAttribute('aria-current','date');const small=document.createElement('small');small.textContent='Сегодня';stone.append(small)}
   stone.addEventListener('click',()=>{if(isToday){openPreparation();return}world.querySelectorAll('.day-stone').forEach(el=>el.setAttribute('aria-pressed',String(el===stone)));document.querySelector('#map-announcement').textContent=label+' — '+stone.dataset.status;stone.scrollIntoView({behavior:mapBehavior(),block:'nearest',inline:'center'})});world.append(stone);
  }
- // Autumn is the approved first landscape; other seasonal artwork comes later.
+ // Seasonal maps retain each day's saved date key across year boundaries.
  if(!todayStone)todayStone=world.querySelector('.day-stone');renderProgress();
 }
 function mapBehavior(){return matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}

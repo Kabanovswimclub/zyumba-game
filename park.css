@@ -62,3 +62,18 @@ body[data-view=park] main>header,body[data-view=park] #stage,body[data-view=park
 .resident[data-golden=true] .feeding-snack{filter:sepia(1) saturate(2);text-shadow:0 0 8px #ffd76c}.resident.golden-fed .resident-portrait{box-shadow:0 0 0 5px #e5bc5b,0 0 35px #f8d878}.resident.golden-fed .feeding-joy{color:#c58c23}.resident-accessories .accessory-scarf{display:none!important}
 
 .resident.golden-fed .feeding-snack{color:#d5a242;text-shadow:0 0 12px #ffe7a5}
+
+/* Painted wardrobe replaces the old geometric accessories; its counter is independent. */
+.park-scene{background-image:var(--scene-image);background-size:cover}
+.park-scene::before{background:#fff4df26}
+:root[data-daytime=evening] .park-bar{background:#e6dfed}
+:root[data-daytime=evening] .resident::before{background:#fff3dce8}
+.resident[data-winter-stage] .resident-art{background-size:contain;background-position:center;background-repeat:no-repeat}
+.resident[data-winter-stage] .resident-accessories{display:none}
+.resident[data-winter-stage] .resident-portrait{scale:1}
+.outfit-before{display:none;position:absolute;inset:0;background:center/contain no-repeat;pointer-events:none;transform:scaleX(var(--facing,1))}
+.fed .outfit-before{display:block;animation:outfit-reveal 2.9s both}
+.grew .feeding-thanks{border-color:#b88b36;background:#fff0be}
+.grew .friend-stars{color:#b37629}
+@keyframes outfit-reveal{0%,40%{opacity:1}65%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.fed .outfit-before{display:none;animation:none}}

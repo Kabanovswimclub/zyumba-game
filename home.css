@@ -36,6 +36,10 @@ body[data-view=home] main>header,body[data-view=home] #stage,body[data-view=home
 
 :root{--scene-image:url("assets/autumn-landscape.webp")}
 :root[data-daytime=evening]{--scene-image:url("assets/autumn-evening.webp")}
+:root[data-month=november]{--scene-image:url("assets/november-morning.webp")}
+:root[data-month=november][data-daytime=evening]{--scene-image:url("assets/november-evening.webp")}
+:root[data-month=december]{--scene-image:url("assets/december-morning.webp")}
+:root[data-month=december][data-daytime=evening]{--scene-image:url("assets/december-evening.webp")}
 .land-panel{background-image:var(--scene-image)}
 .land{background:var(--scene-image) center/cover no-repeat}
 :root[data-daytime=evening] .home-bar{background:#e6dfed}
