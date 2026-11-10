@@ -1,6 +1,6 @@
 // Web Audio gain also works on iPhone, where media element volume is fixed.
 const voiceFiles=['01-preparation','02-start','03-top','04-inside','05-outside','06-lower-left','07-upper-right','08-upper-left','09-front-teeth','10-finish','11-reward'];
-const voiceLoads=[...voiceFiles.map(name=>'assets/voice/'+name+'.mp3'),extraVoices.farTeeth,...['13-day-complete','14-choose-friend','15-yummy'].map(name=>'assets/voice/'+name+'.mp3')].map(url=>url?fetch(url+'?v=17').then(r=>{if(!r.ok)throw Error(url);return r.arrayBuffer()}).catch(()=>null):Promise.resolve(null));
+const voiceLoads=[...voiceFiles.map(name=>'assets/voice/'+name+'.mp3'),extraVoices.farTeeth,...['13-day-complete','14-choose-friend','15-yummy'].map(name=>'assets/voice/'+name+'.mp3')].map(url=>url?fetch(url+'?v=18').then(r=>{if(!r.ok)throw Error(url);return r.arrayBuffer()}).catch(()=>null):Promise.resolve(null));
 let audioContext,musicGain,voiceGain,voiceSource,voiceBuffer,voiceOffset=0,voiceStarted=0,voicePaused=false,voiceSerial=0;
 const decodedVoices=[];let voiceQueue=[],voiceLoading=false,voiceCurrentIndex=-1;
 function audioUnlock(){
@@ -23,7 +23,7 @@ let voiceCue='';
 function brushingVoice(ms){const zone=Math.min(4,Math.floor(ms/(hold+transfer))),local=ms-zone*(hold+transfer);if(hold<12000&&zone<4&&local<hold)return;let cue,index;
  if(local>=hold&&zone<4){cue='transfer-'+zone;index=[5,6,7,8][zone]}
  else if(zone===4){cue='front';index=8}
- else {const surface=surfaceStep(zone,local,hold).index;cue=zone+'-'+surface;index=[2,4,3][surface];if(zone===0&&surface===0)return;if(zone>0&&surface===0&&local<1000)return}
+ else {const surface=surfaceStep(zone,local,hold).index;cue=zone+'-'+surface;index=[2,4,3][surface];if(surface===0)return}
  if(cue!==voiceCue){const previous=voiceCue;voiceCue=cue;if(cue==='front'&&previous==='transfer-3')return;if(zone===0&&cue==='0-2')sayVoiceSequence([index,{index:11,maxDuration:surfaceStep(zone,local,hold).length/1000-3}]);else sayVoice(index)}
 }
 
